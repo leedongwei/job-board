@@ -13,6 +13,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 // import createHistory from 'history/createBrowserHistory';
 
+import 'antd/dist/antd.css';
 import App from './app';
 // import registerServiceWorker from './lib/registerServiceWorker';
 

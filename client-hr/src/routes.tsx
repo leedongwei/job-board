@@ -4,7 +4,9 @@ import { Route } from 'react-router';
 // import ConnectedSwitch from './components/Router/ConnectedSwitch';
 
 // Production pages
-import LoginPage from './pages/LoginPage';
+import PageLogin from './pages/PageLogin';
+import PageMain from './pages/PageMain';
+import PageRegister from './pages/PageRegister';
 // import WelcomePage from './pages/WelcomePage';
 
 // Status pages
@@ -14,8 +16,11 @@ import LoginPage from './pages/LoginPage';
 const Routes = () => (
   <>
     {/* <ConnectedSwitch> */}
-      <Route path={'/'} exact={true} component={LoginPage}/>
-      <Route path={'/login'} component={LoginPage}/>
+      <Route path={'/'} exact={true} component={PageLogin}/>
+      <Route path={'/login'} component={PageLogin}/>
+      <Route path={'/register'} component={PageRegister}/>
+
+      <Route path={'/main'} component={PageMain}/>
 
       {/* <PrivateRoute path={'/welcome'} component={WelcomePage}/> */}
 
