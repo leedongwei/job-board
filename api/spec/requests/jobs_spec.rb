@@ -2,14 +2,16 @@ require 'rails_helper'
 
 RSpec.describe 'Jobs API' do
   # Initialize the test data
-  let!(:company) { create(:company) }
+  let(:user) { create(:user) }
+  let!(:company) { create(:company, created_by: user.id) }
   let!(:jobs) { create_list(:job, 20, company_id: company.id) }
   let(:company_id) { company.id }
   let(:id) { jobs.first.id }
+  let(:headers) { valid_headers }
 
   # Test suite for GET /companies/:company_id/jobs
   describe 'GET /companies/:company_id/jobs' do
-    before { get "/companies/#{company_id}/jobs" }
+    before { get "/companies/#{company_id}/jobs", headers: headers }
 
     context 'when company exists' do
       it 'returns status code 200' do
@@ -36,7 +38,7 @@ RSpec.describe 'Jobs API' do
 
   # Test suite for GET /companies/:company_id/jobs/:id
   describe 'GET /companies/:company_id/jobs/:id' do
-    before { get "/companies/#{company_id}/jobs/#{id}" }
+    before { get "/companies/#{company_id}/jobs/#{id}", headers: headers, headers: headers }
 
     context 'when company job exists' do
       it 'returns status code 200' do
@@ -61,12 +63,12 @@ RSpec.describe 'Jobs API' do
     end
   end
 
-  # Test suite for PUT /companies/:company_id/jobs
+  # Test suite for POST /companies/:company_id/jobs
   describe 'POST /companies/:company_id/jobs' do
-    let(:valid_attributes) { { title: 'Generic Job A', description: 'This is generic' } }
+    let(:valid_attributes) { { title: 'Generic Job A', description: 'This is generic' }.to_json }
 
     context 'when request attributes are valid' do
-      before { post "/companies/#{company_id}/jobs", params: valid_attributes }
+      before { post "/companies/#{company_id}/jobs", params: valid_attributes, headers: headers }
 
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
@@ -74,7 +76,7 @@ RSpec.describe 'Jobs API' do
     end
 
     context 'when an invalid request' do
-      before { post "/companies/#{company_id}/jobs", params: {} }
+      before { post "/companies/#{company_id}/jobs", params: {}, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -88,9 +90,9 @@ RSpec.describe 'Jobs API' do
 
   # Test suite for PUT /companies/:company_id/jobs/:id
   describe 'PUT /companies/:company_id/jobs/:id' do
-    let(:valid_attributes) { { title: 'Generic Job A' } }
+    let(:valid_attributes) { { title: 'Generic Job A' }.to_json }
 
-    before { put "/companies/#{company_id}/jobs/#{id}", params: valid_attributes }
+    before { put "/companies/#{company_id}/jobs/#{id}", params: valid_attributes, headers: headers }
 
     context 'when job exists' do
       it 'returns status code 204' do
@@ -118,7 +120,7 @@ RSpec.describe 'Jobs API' do
 
   # Test suite for DELETE /companies/:company_id/jobs/:id
   describe 'DELETE /companies/:company_id/jobs/:id' do
-    before { delete "/companies/#{company_id}/jobs/#{id}" }
+    before { delete "/companies/#{company_id}/jobs/#{id}", headers: headers }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)

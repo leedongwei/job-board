@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  # Association test
-  it { should belong_to(:company) }
+  it { should have_many(:companies) }
 
   # Validation tests
   it { should validate_presence_of(:email) }

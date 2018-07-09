@@ -2,16 +2,18 @@ require 'rails_helper'
 
 RSpec.describe 'Applicants API' do
   # Initialize the test data
-  let!(:company) { create(:company) }
+  let(:user) { create(:user) }
+  let!(:company) { create(:company, created_by: user.id) }
   let!(:job) { create_list(:job, 5, company_id: company.id) }
   let!(:applicants) { create_list(:applicant, 20, job_id: job.first.id) }
   let(:company_id) { company.id }
   let(:job_id) { job.first.id }
   let(:id) { applicants.first.id }
+  let(:headers) { valid_headers }
 
   # Test suite for GET /companies/:company_id/jobs/:job_id
   describe 'GET /companies/:company_id/jobs/:job_id' do
-    before { get "/companies/#{company_id}/jobs/#{job_id}" }
+    before { get "/companies/#{company_id}/jobs/#{job_id}", headers: headers }
 
     context 'when company and job exists' do
       it 'returns status code 200' do
@@ -38,7 +40,7 @@ RSpec.describe 'Applicants API' do
 
   # Test suite for GET /companies/:company_id/applicants
   describe 'GET /companies/:company_id/jobs/:job_id/applicants' do
-    before { get "/companies/#{company_id}/jobs/#{job_id}/applicants" }
+    before { get "/companies/#{company_id}/jobs/#{job_id}/applicants", headers: headers }
 
     context 'when company and job exists' do
       it 'returns status code 200' do
@@ -65,10 +67,10 @@ RSpec.describe 'Applicants API' do
 
   # Test suite for PUT /companies/:company_id/jobs/:job_id/applicants
   describe 'POST /companies/:company_id/jobs/:job_id/applicants' do
-    let(:valid_attributes) { { name: 'James Doe', email: 'james_doe@mail.com', phone: '12344321' } }
+    let(:valid_attributes) { { name: 'James Doe', email: 'james_doe@mail.com', phone: '12344321' }.to_json }
 
     context 'when request attributes are valid' do
-      before { post "/companies/#{company_id}/jobs/#{job_id}/applicants", params: valid_attributes }
+      before { post "/companies/#{company_id}/jobs/#{job_id}/applicants", params: valid_attributes, headers: headers }
 
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
@@ -76,7 +78,7 @@ RSpec.describe 'Applicants API' do
     end
 
     context 'when an invalid request' do
-      before { post "/companies/#{company_id}/jobs/#{job_id}/applicants", params: {} }
+      before { post "/companies/#{company_id}/jobs/#{job_id}/applicants", params: {}, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -90,9 +92,9 @@ RSpec.describe 'Applicants API' do
 
   # Test suite for PUT /companies/:company_id/jobs/:job_id/applicants/:id
   describe 'PUT /companies/:company_id/jobs/:job_id/applicants/:id' do
-    let(:valid_attributes) { { name: 'James Doe', email: 'james_doe@mail.com', phone: '12344321' } }
+    let(:valid_attributes) { { name: 'James Doe', email: 'james_doe@mail.com', phone: '12344321' }.to_json }
 
-    before { put "/companies/#{company_id}/jobs/#{job_id}/applicants/#{id}", params: valid_attributes }
+    before { put "/companies/#{company_id}/jobs/#{job_id}/applicants/#{id}", params: valid_attributes, headers: headers }
 
     context 'when applicant exists' do
       it 'returns status code 204' do
@@ -120,7 +122,7 @@ RSpec.describe 'Applicants API' do
 
   # Test suite for DELETE /companies/:company_id/jobs/:job_id/applicants/:id
   describe 'DELETE /companies/:company_id/jobs/:job_id/applicants/:id' do
-    before { delete "/companies/#{company_id}/jobs/#{job_id}/applicants/#{id}" }
+    before { delete "/companies/#{company_id}/jobs/#{job_id}/applicants/#{id}", headers: headers }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)

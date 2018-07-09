@@ -1,4 +1,5 @@
 class ApplicantsController < ApplicationController
+  skip_before_action :authorize_request, only: :create
   before_action :set_company
   before_action :set_company_job
   before_action :set_company_job_applicant, only: [:show, :update, :destroy]

@@ -7,4 +7,5 @@ RSpec.describe Company, type: :model do
 
   # Validation test
   it { should validate_presence_of(:name) }
+  it { should validate_presence_of(:created_by) }
 end

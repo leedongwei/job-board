@@ -2,13 +2,15 @@ require 'rails_helper'
 
 RSpec.describe 'Companies API', type: :request do
   # initialize test data
-  let!(:companies) { create_list(:company, 10) }
+  let(:user) { create(:user) }
+  let!(:companies) { create_list(:company, 10, created_by: user.id) }
   let(:company_id) { companies.first.id }
+  let(:headers) { valid_headers }
 
   # Test suite for GET /companies
   describe 'GET /companies' do
     # make HTTP get request before each example
-    before { get '/companies' }
+    before { get '/companies', headers: headers }
 
     it 'returns companies' do
       # Note `json` is a custom helper to parse JSON responses
@@ -23,7 +25,7 @@ RSpec.describe 'Companies API', type: :request do
 
   # Test suite for GET /companies/:id
   describe 'GET /companies/:id' do
-    before { get "/companies/#{company_id}" }
+    before { get "/companies/#{company_id}", params: {}, headers: headers }
 
     context 'when the record exists' do
       it 'returns the company' do
@@ -52,10 +54,10 @@ RSpec.describe 'Companies API', type: :request do
   # Test suite for POST /companies
   describe 'POST /companies' do
     # valid payload
-    let(:valid_attributes) { { name: 'Workstream' } }
+    let(:valid_attributes) { { name: 'Workstream' }.to_json }
 
     context 'when the request is valid' do
-      before { post '/companies', params: valid_attributes }
+      before { post '/companies', params: valid_attributes, headers: headers }
 
       it 'creates a company' do
         expect(json['name']).to eq('Workstream')
@@ -67,7 +69,7 @@ RSpec.describe 'Companies API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/companies', params: { } }
+      before { post '/companies', params: { }, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -82,10 +84,10 @@ RSpec.describe 'Companies API', type: :request do
 
   # Test suite for PUT /companies/:id
   describe 'PUT /companies/:id' do
-    let(:valid_attributes) { { name: 'Soup Spoon' } }
+    let(:valid_attributes) { { name: 'Soup Spoon' }.to_json }
 
     context 'when the record exists' do
-      before { put "/companies/#{company_id}", params: valid_attributes }
+      before { put "/companies/#{company_id}", params: valid_attributes, headers: headers }
 
       it 'updates the record' do
         expect(response.body).to be_empty
@@ -99,7 +101,7 @@ RSpec.describe 'Companies API', type: :request do
 
   # Test suite for DELETE /companies/:id
   describe 'DELETE /companies/:id' do
-    before { delete "/companies/#{company_id}" }
+    before { delete "/companies/#{company_id}", headers: headers }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)

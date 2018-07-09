@@ -3,13 +3,13 @@ class CompaniesController < ApplicationController
 
   # GET /companies
   def index
-    @companies = Company.all
+    @companies = current_user.companies
     json_response(@companies)
   end
 
   # POST /companies
   def create
-    @company = Company.create!(company_params)
+    @company = current_user.companies.create!(company_params)
     json_response(@company, :created)
   end
 
@@ -34,7 +34,7 @@ class CompaniesController < ApplicationController
 
   def company_params
     # whitelist params
-    params.permit(:name, :created_by)
+    params.permit(:name)
   end
 
   def set_company
