@@ -22,13 +22,13 @@ module V1
     # PUT /companies/:company_id/jobs/:id
     def update
       @job.update(job_params)
-      head :no_content
+      json_response(@job)
     end
 
     # DELETE /companies/:company_id/jobs/:id
     def destroy
       @job.destroy
-      head :no_content
+      json_response(@job)
     end
 
     private
