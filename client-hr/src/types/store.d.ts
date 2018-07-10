@@ -7,5 +7,6 @@ declare namespace Store {
     };
 
     app: StateApp;
+    data: StateData;
   }
 }

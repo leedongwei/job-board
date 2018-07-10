@@ -1,0 +1,31 @@
+.list-job-load {
+  text-align: center;
+  margin-top: 12px;
+  height: 32px;
+  line-height: 32px;
+}
+.list-job-item:hover {
+  background-color: #eee;
+  margin: 0 -24px;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+.list-job-item .ant-list-item-action {
+  margin-left: 5px;
+}
+
+.list-job-item-title {
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
+}
+.list-job-item-description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  max-height: 44px;
+  line-height: 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

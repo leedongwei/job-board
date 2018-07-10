@@ -7,13 +7,11 @@ import { Link } from 'react-router-dom';
 
 import { appSetLogin } from '../../reducers/app/actions';
 
-import {
-  Button,
-  Form,
-  Icon,
-  Input,
-} from 'antd';
-import { FormComponentProps } from 'antd/lib/form';
+import Button from 'antd/lib/button';
+import Form, { FormComponentProps } from 'antd/lib/form';
+import Icon from 'antd/lib/icon';
+import Input from 'antd/lib/input';
+import message from 'antd/lib/message';
 
 interface IFormAuthCreateProps extends DispatchProp, FormComponentProps {
   handleAuthCreate: { (user: User): Promise<any> }; // tslint:disable-line
@@ -67,6 +65,7 @@ class FormAuthCreate extends React.Component<IFormAuthCreateProps, IFormAuthCrea
       this.props.dispatch(appSetLogin(authCreateResponse.data.auth_token));
       this.props.handleNavigateToNext();
     } catch (e) {
+      message.error(e.message);
       console.error(e);
       this.setState({ isFetching: false });
     }

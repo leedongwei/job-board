@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
 
 const history = createHistory();
 
-const store = createStore(
+export const store = createStore(
   rootReducer,
   composeEnhancers(
     applyMiddleware(

@@ -1,0 +1,30 @@
+import {
+  Action,
+  ActionCreator,
+} from 'redux';
+
+export const DATA_SET_COMPANIES = 'DATA_SET_COMPANIES';
+export const DATA_SET_JOBS = 'DATA_SET_JOBS';
+
+export const DATA_ADD_JOBS = 'DATA_ADD_JOBS';
+
+export const dataSetCompanies: ActionCreator<Action> = (companies: Company[]) => {
+  return {
+    payload: { companies },
+    type: DATA_SET_COMPANIES,
+  };
+};
+
+export const dataSetJobs: ActionCreator<Action> = (jobs: Job[]) => {
+  return {
+    payload: { jobs },
+    type: DATA_SET_JOBS,
+  };
+};
+
+export const dataAddJobs: ActionCreator<Action> = (jobs: Job | Job[]) => {
+  return {
+    payload: { jobs },
+    type: DATA_ADD_JOBS,
+  };
+};

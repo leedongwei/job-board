@@ -7,13 +7,11 @@ import { Link } from 'react-router-dom';
 
 import { appSetLogin } from '../../reducers/app/actions';
 
-import {
-  Button,
-  Form,
-  Icon,
-  Input,
-} from 'antd';
-import { FormComponentProps } from 'antd/lib/form';
+import Button from 'antd/lib/button';
+import Form, { FormComponentProps } from 'antd/lib/form';
+import Icon from 'antd/lib/icon';
+import Input from 'antd/lib/input';
+import message from 'antd/lib/message';
 
 interface IFormUserCreateProps extends DispatchProp, FormComponentProps {
   handleCompanyCreate: { (company: Company): Promise<any> }; // tslint:disable-line
@@ -64,7 +62,6 @@ class FormUserCreate extends React.Component<IFormUserCreateProps, IFormUserCrea
       // 4 - API call
       const userCreateReponse = await this.props.handleUserCreate(user);
       await this.props.dispatch(appSetLogin(userCreateReponse.data.auth_token));
-
       await this.props.handleCompanyCreate(company);
 
       // 5 - Set form to normal, show success feedback
@@ -73,6 +70,7 @@ class FormUserCreate extends React.Component<IFormUserCreateProps, IFormUserCrea
       // 6 - Navigate to next screen
       this.props.handleNavigateToNext();
     } catch (e) {
+      message.error(e.message);
       console.error(e);
       this.setState({ isFetching: false });
     }

@@ -33,7 +33,7 @@ class TemplatePage extends React.Component<ITemplatePageProps> {
             !this.props.hideHeader && (
               <Layout.Header>
                 <div className={'header'}>
-                  <h1 className={'header-title'}>HR PLATFORM</h1>
+                  <h1 className={'header-title'}>{this.props.title || 'HR Platform'}</h1>
 
                   <Button
                     className={'header-button'}
