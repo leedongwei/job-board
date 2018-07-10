@@ -14,9 +14,13 @@ const initialState: StateData = {
 export const dataReducer: Reducer<StateData> = (state = initialState, action) => {
   switch (action.type) {
     case DATA_SET_COMPANIES:
+      const companies = Array.isArray(action.payload.companies)
+        ? action.payload.companies
+        : [action.payload.companies];
+
       return {
         ...state,
-        companies: action.payload.companies
+        companies: companies
           .sort((a: any, b: any) => b.id - a.id),
       };
 
