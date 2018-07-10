@@ -1,17 +1,22 @@
 import * as React from 'react';
 import {
+  connect,
+  DispatchProp,
+} from 'react-redux';
+import {
   RouteComponentProps,
   withRouter
 } from 'react-router-dom'
 
 import apiUser from '../../api/v1/user';
+import { appSetLogin } from '../../reducers/app/actions';
 
 import { Card } from 'antd';
 
 import TemplatePage from '../components/TemplatePage';
 import FormAuthCreate from './FormAuthCreate';
 
-interface IPageLoginProps extends RouteComponentProps<any> {
+interface IPageLoginProps extends DispatchProp, RouteComponentProps<any> {
   nothing?: string;
 }
 interface IPageLoginState {
@@ -31,7 +36,10 @@ class PageLogin extends React.Component<IPageLoginProps, IPageLoginState> {
   }
 
   public componentWillMount() {
-    if (window.localStorage.getItem('hr-jwt')) {
+    const jwt = window.localStorage.getItem('hr-jwt');
+
+    if (jwt) {
+      this.props.dispatch(appSetLogin(jwt));
       this.handleNavigateToNext();
     }
   }
@@ -52,6 +60,7 @@ class PageLogin extends React.Component<IPageLoginProps, IPageLoginState> {
     return (
       <TemplatePage
         title={'Login'}
+        hideHeader={true}
         centerElements={true}
       >
         <Card style={{ width: 300 }}>
@@ -65,4 +74,4 @@ class PageLogin extends React.Component<IPageLoginProps, IPageLoginState> {
   }
 }
 
-export default withRouter(PageLogin);
+export default connect()(withRouter(PageLogin));

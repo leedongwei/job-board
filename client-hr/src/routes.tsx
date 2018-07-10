@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Route } from 'react-router';
 
-// import ConnectedSwitch from './components/Router/ConnectedSwitch';
+import ConnectedSwitch from './pages/components/Router/ConnectedSwitch';
+import PrivateRoute from './pages/components/Router/PrivateRoute';
 
 // Production pages
 import PageLogin from './pages/PageLogin';
@@ -15,17 +16,16 @@ import PageRegister from './pages/PageRegister';
 
 const Routes = () => (
   <>
-    {/* <ConnectedSwitch> */}
+    <ConnectedSwitch>
       <Route path={'/'} exact={true} component={PageLogin}/>
       <Route path={'/login'} component={PageLogin}/>
       <Route path={'/register'} component={PageRegister}/>
 
-      <Route path={'/main'} component={PageMain}/>
+      <PrivateRoute path={'/main'} component={PageMain}/>
 
       {/* <PrivateRoute path={'/welcome'} component={WelcomePage}/> */}
-
       {/* <Route component={ErrorNotFoundPage}/> */}
-    {/* </ConnectedSwitch> */}
+    </ConnectedSwitch>
   </>
 );
 

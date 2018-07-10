@@ -1,5 +1,11 @@
 import * as React from 'react';
+import {
+  connect,
+  DispatchProp,
+} from 'react-redux';
 import { Link } from 'react-router-dom';
+
+import { appSetLogin } from '../../reducers/app/actions';
 
 import {
   Button,
@@ -9,7 +15,7 @@ import {
 } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
-interface IFormAuthCreateProps extends FormComponentProps {
+interface IFormAuthCreateProps extends DispatchProp, FormComponentProps {
   handleAuthCreate: { (user: User): Promise<any> }; // tslint:disable-line
   handleNavigateToNext: { (): void }; // tslint:disable-line
 }
@@ -25,10 +31,10 @@ class FormAuthCreate extends React.Component<IFormAuthCreateProps, IFormAuthCrea
       isFetching: false,
     };
 
-    this.handleAuthCreate = this.handleAuthCreate.bind(this);
+    this.handleSubmitForm = this.handleSubmitForm.bind(this);
   }
 
-  public async handleAuthCreate(e: React.FormEvent<HTMLInputElement>) {
+  public async handleSubmitForm(e: React.FormEvent<HTMLInputElement>) {
      // 1 - Set form to fetching
      e.preventDefault();
      this.setState({ isFetching: true });
@@ -50,16 +56,15 @@ class FormAuthCreate extends React.Component<IFormAuthCreateProps, IFormAuthCrea
         email: formValues.email,
         password: formValues.password,
       };
-      console.log(formValues);
 
       // 4 - API call
-      const authResponse = await this.props.handleAuthCreate(user);
-      console.log(authResponse);
+      const authCreateResponse = await this.props.handleAuthCreate(user);
 
       // 5 - Set form to normal, show success feedback
       this.setState({ isFetching: false });
 
       // 6 - Navigate to next screen
+      this.props.dispatch(appSetLogin(authCreateResponse.data.auth_token));
       this.props.handleNavigateToNext();
     } catch (e) {
       console.error(e);
@@ -71,7 +76,7 @@ class FormAuthCreate extends React.Component<IFormAuthCreateProps, IFormAuthCrea
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <Form onSubmit={this.handleAuthCreate} className={'login-form'}>
+      <Form onSubmit={this.handleSubmitForm} className={'login-form'}>
         <h1>HR LOGIN</h1>
 
         <Form.Item>
@@ -138,4 +143,4 @@ class FormAuthCreate extends React.Component<IFormAuthCreateProps, IFormAuthCrea
   }
 }
 
-export default Form.create()(FormAuthCreate);;
+export default connect()(Form.create()(FormAuthCreate));

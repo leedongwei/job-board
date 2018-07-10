@@ -1,14 +1,11 @@
+/// <reference types='history'/>
+
 declare namespace Store {
   interface State {
-    router: Router;
-  }
+    router: {
+      location: Location;
+    };
 
-  interface Router {
-    location: {
-      pathname: string;
-      search: string;
-      hash: string;
-      key: string;
-    }
+    app: StateApp;
   }
 }

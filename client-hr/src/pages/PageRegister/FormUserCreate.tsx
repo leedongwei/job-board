@@ -1,5 +1,11 @@
 import * as React from 'react';
+import {
+  connect,
+  DispatchProp,
+} from 'react-redux';
 import { Link } from 'react-router-dom';
+
+import { appSetLogin } from '../../reducers/app/actions';
 
 import {
   Button,
@@ -9,7 +15,8 @@ import {
 } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
-interface IFormUserCreateProps extends FormComponentProps {
+interface IFormUserCreateProps extends DispatchProp, FormComponentProps {
+  handleCompanyCreate: { (company: Company): Promise<any> }; // tslint:disable-line
   handleUserCreate: { (user: User): Promise<any> }; // tslint:disable-line
   handleNavigateToNext: { (): void }; // tslint:disable-line
 }
@@ -25,10 +32,10 @@ class FormUserCreate extends React.Component<IFormUserCreateProps, IFormUserCrea
       isFetching: false,
     };
 
-    this.handleUserCreate = this.handleUserCreate.bind(this);
+    this.handleSubmitForm = this.handleSubmitForm.bind(this);
   }
 
-  public async handleUserCreate(e: React.FormEvent<HTMLInputElement>) {
+  public async handleSubmitForm(e: React.FormEvent<HTMLInputElement>) {
      // 1 - Set form to fetching
      e.preventDefault();
      this.setState({ isFetching: true });
@@ -50,10 +57,15 @@ class FormUserCreate extends React.Component<IFormUserCreateProps, IFormUserCrea
         email: formValues.email,
         password: formValues.password,
       };
+      const company = {
+        name: formValues.company,
+      };
 
       // 4 - API call
-      const authResponse = await this.props.handleUserCreate(user);
-      console.log('authresponse', authResponse);
+      const userCreateReponse = await this.props.handleUserCreate(user);
+      await this.props.dispatch(appSetLogin(userCreateReponse.data.auth_token));
+
+      await this.props.handleCompanyCreate(company);
 
       // 5 - Set form to normal, show success feedback
       this.setState({ isFetching: false });
@@ -70,8 +82,27 @@ class FormUserCreate extends React.Component<IFormUserCreateProps, IFormUserCrea
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <Form onSubmit={this.handleUserCreate} className={'login-form'}>
+      <Form onSubmit={this.handleSubmitForm} className={'login-form'}>
         <h1>Register new account</h1>
+
+        <Form.Item>
+          {
+            getFieldDecorator('company', {
+              rules: [{
+                message: 'Please set a company name!',
+                required: true,
+              }, {
+                type: 'string',
+              }],
+            })(
+              <Input
+                prefix={<Icon type={'home'} style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder={'Company Name'}
+                disabled={this.state.isFetching}
+              />
+            )
+          }
+        </Form.Item>
 
         <Form.Item>
           {
@@ -125,7 +156,7 @@ class FormUserCreate extends React.Component<IFormUserCreateProps, IFormUserCrea
             className={'login-form-button'}
             disabled={this.state.isFetching}
           >
-            Log in
+            Register
           </Button>
 
           {
@@ -140,4 +171,4 @@ class FormUserCreate extends React.Component<IFormUserCreateProps, IFormUserCrea
   }
 }
 
-export default Form.create()(FormUserCreate);;
+export default connect()(Form.create()(FormUserCreate));

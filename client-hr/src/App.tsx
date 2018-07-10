@@ -1,8 +1,25 @@
 import * as React from 'react';
+import {
+  connect,
+  DispatchProp,
+} from 'react-redux';
+
+import { appSetLogin } from './reducers/app/actions';
 
 import Routes from './routes';
 
-class App extends React.Component {
+// interface IAppProps extends DispatchProp {
+// }
+
+class App extends React.Component<DispatchProp> {
+  public componentWillMount() {
+    const jwt = window.localStorage.getItem('hr-jwt');
+
+    if (jwt) {
+      this.props.dispatch(appSetLogin(jwt));
+    }
+  }
+
   public render() {
     return (
       <Routes/>
@@ -10,4 +27,5 @@ class App extends React.Component {
   }
 }
 
-export default App;
+
+export default connect()(App);

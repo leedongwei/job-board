@@ -1,6 +1,8 @@
 {
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
+    "callable-types": false,
+    "jsx-no-lambda": false,
     "no-console": false
   },
   "linterOptions": {

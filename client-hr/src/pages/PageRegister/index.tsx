@@ -1,18 +1,24 @@
 import * as React from 'react';
 import {
+  connect,
+  DispatchProp,
+} from 'react-redux';
+import {
   RouteComponentProps,
   withRouter
 } from 'react-router-dom'
 
+import apiCompany from '../../api/v1/company';
 import apiUser from '../../api/v1/user';
+import { appSetLogin } from '../../reducers/app/actions';
 
 import { Card } from 'antd';
 
 import TemplatePage from '../components/TemplatePage';
 import FormUserCreate from './FormUserCreate';
 
-interface IPageRegisterProps extends RouteComponentProps<any> {
-  nothing?: string;
+interface IPageRegisterProps extends DispatchProp, RouteComponentProps<any> {
+  jwt?: string;
 }
 interface IPageRegisterState {
   isCheckingJwt: boolean;
@@ -28,8 +34,22 @@ class PageRegister extends React.Component<IPageRegisterProps, IPageRegisterStat
       isFetching: false,
     };
 
+    this.handleCompanyCreate = this.handleCompanyCreate.bind(this);
     this.handleUserCreate = this.handleUserCreate.bind(this);
     this.handleNavigateToNext = this.handleNavigateToNext.bind(this);
+  }
+
+  public componentWillMount() {
+    const jwt = window.localStorage.getItem('hr-jwt');
+
+    if (jwt) {
+      this.props.dispatch(appSetLogin(jwt));
+      this.handleNavigateToNext();
+    }
+  }
+
+  public handleCompanyCreate(company: Company) {
+    return apiCompany.create(company);
   }
 
   public handleUserCreate(user: User) {
@@ -48,10 +68,12 @@ class PageRegister extends React.Component<IPageRegisterProps, IPageRegisterStat
     return (
       <TemplatePage
         title={'Register'}
+        hideHeader={true}
         centerElements={true}
       >
         <Card style={{ width: 300 }}>
           <FormUserCreate
+            handleCompanyCreate={this.handleCompanyCreate}
             handleUserCreate={this.handleUserCreate}
             handleNavigateToNext={this.handleNavigateToNext}
           />
@@ -61,4 +83,7 @@ class PageRegister extends React.Component<IPageRegisterProps, IPageRegisterStat
   }
 }
 
-export default withRouter(PageRegister);
+const mapStateToProps = (state: Store.State) => ({
+  jwt: state.app.jwt,
+})
+export default connect(mapStateToProps)(withRouter(PageRegister));
