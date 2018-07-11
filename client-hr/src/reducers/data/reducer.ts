@@ -1,26 +1,31 @@
 import { Reducer } from 'redux';
 
 import {
+  APP_RESET
+} from '../app/actions';
+import {
+  DATA_ADD_APPLICANTS,
   DATA_ADD_JOBS,
+  DATA_SET_APPLICANTS,
   DATA_SET_COMPANIES,
   DATA_SET_JOBS,
 } from './actions';
 
 const initialState: StateData = {
+  applicants: undefined,
   companies: undefined,
   jobs: undefined,
 }
 
 export const dataReducer: Reducer<StateData> = (state = initialState, action) => {
   switch (action.type) {
-    case DATA_SET_COMPANIES:
-      const companies = Array.isArray(action.payload.companies)
-        ? action.payload.companies
-        : [action.payload.companies];
+    case APP_RESET:
+      return initialState;
 
+    case DATA_SET_COMPANIES:
       return {
         ...state,
-        companies: companies
+        companies: action.payload.companies
           .sort((a: any, b: any) => b.id - a.id),
       };
 
@@ -32,9 +37,7 @@ export const dataReducer: Reducer<StateData> = (state = initialState, action) =>
       };
 
     case DATA_ADD_JOBS:
-      const jobs = Array.isArray(action.payload.jobs)
-        ? action.payload.jobs
-        : [action.payload.jobs];
+      const jobs = action.payload.jobs;
       const prevJobs = state.jobs || [];
 
       jobs.forEach((job: Job) => {
@@ -50,6 +53,33 @@ export const dataReducer: Reducer<StateData> = (state = initialState, action) =>
       return {
         ...state,
         jobs: prevJobs
+          .sort((a: any, b: any) => b.id - a.id),
+      };
+
+    case DATA_SET_APPLICANTS:
+      return {
+        ...state,
+        applicants: action.payload.applicants
+          .sort((a: any, b: any) => b.id - a.id),
+      };
+
+    case DATA_ADD_APPLICANTS:
+      const applicants = action.payload.applicants;
+      const prevApplicants = state.applicants || [];
+
+      applicants.forEach((applicant: Applicant) => {
+        const i = prevApplicants.findIndex(a => a.id === applicant.id);
+
+        if (i >= 0) {
+          prevApplicants[i] = applicant;
+        } else {
+          prevApplicants.push(applicant);
+        }
+      });
+
+      return {
+        ...state,
+        applicants: prevApplicants
           .sort((a: any, b: any) => b.id - a.id),
       };
 

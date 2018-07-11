@@ -15,6 +15,7 @@ import {
 } from '../../reducers/data/actions';
 
 import TemplatePage from '../components/TemplatePage';
+import CardApplicants from './CardApplicants';
 import CardJobs from './CardJobs';
 
 interface IPageMainProps extends DispatchProp {
@@ -49,16 +50,14 @@ class PageMain extends React.Component<IPageMainProps, IPageMainState> {
     const company = this.props.data.company;
 
     return (
-      <TemplatePage
-        title={company ? company.name : 'HR Platform'}
-      >
+      <TemplatePage title={company ? company.name : 'HR Platform'}>
         <Layout>
           <Row gutter={12}>
             <Col span={8}>
               <CardJobs/>
             </Col>
             <Col span={16}>
-              <div>create company</div>
+              <CardApplicants/>
             </Col>
           </Row>
         </Layout>

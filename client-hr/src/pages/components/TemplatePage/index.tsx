@@ -6,7 +6,10 @@ import {
 } from 'react-redux';
 import { push } from 'react-router-redux';
 
-import { appUnsetLogin } from '../../../reducers/app/actions';
+import {
+  appReset,
+  appUnsetLogin,
+} from '../../../reducers/app/actions';
 
 import Button from 'antd/lib/button';
 import Layout from 'antd/lib/layout';
@@ -22,7 +25,8 @@ class TemplatePage extends React.Component<ITemplatePageProps> {
   public handleLogout() {
     window.localStorage.setItem('hr-jwt', '');
     this.props.dispatch(appUnsetLogin());
-    this.props.dispatch(push('/'));
+    this.props.dispatch(appReset());
+    this.props.dispatch(push('/login'));
   }
 
   public render() {

@@ -37,8 +37,8 @@ class ModalJob extends React.Component<IModalJobProps, IModalJobState> {
 
   public async handleSubmitForm(e: React.FormEvent<HTMLInputElement>) {
     // 1 - Set form to fetching
-     e.preventDefault();
-     this.setState({ isFetching: true });
+    e.preventDefault();
+    this.setState({ isFetching: true });
 
     try {
       // 2 - Validate form
@@ -51,6 +51,12 @@ class ModalJob extends React.Component<IModalJobProps, IModalJobState> {
           },
         );
       });
+
+      // 2.1 Manual checks
+      const company = this.props.data.company;
+      if (!company) {
+        throw new Error('No company associated with this user');
+      }
 
       // 3 - Type coercion
       const job = {
@@ -66,6 +72,7 @@ class ModalJob extends React.Component<IModalJobProps, IModalJobState> {
 
       // 5 - Set form to normal, show success feedback
       this.setState({ isFetching: false });
+      this.props.form.resetFields();
       message.success('Job data is saved!');
 
       // 6 - Navigate to next screen

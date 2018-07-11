@@ -10,6 +10,8 @@ import './styles.css';
 
 interface ICardJobsListJobsItemProps {
   job: Job;
+  isActive: boolean;
+  onClick?: { (job: Job): void };
 }
 interface ICardJobsListJobsItemState {
   showModal: boolean;
@@ -23,7 +25,14 @@ class CardJobsListJobsItem extends React.Component<ICardJobsListJobsItemProps, I
       showModal: false,
     }
 
+    this.handleClick = this.handleClick.bind(this);
     this.handleToggleModal = this.handleToggleModal.bind(this);
+  }
+
+  public handleClick() {
+    if (this.props.onClick) {
+      this.props.onClick(this.props.job);
+    }
   }
 
   public handleToggleModal() {
@@ -34,9 +43,9 @@ class CardJobsListJobsItem extends React.Component<ICardJobsListJobsItemProps, I
     const job = this.props.job;
 
     return (
-      <>
+      <div onClick={this.handleClick}>
         <List.Item
-          className={'list-job-item'}
+          className={`list-job-item ${this.props.isActive && 'active'}`}
           actions={[
             <a key={0} onClick={this.handleToggleModal}><Icon type={'edit'}/></a>,
           ]}
@@ -51,7 +60,7 @@ class CardJobsListJobsItem extends React.Component<ICardJobsListJobsItemProps, I
           isVisible={this.state.showModal}
           toggleVisible={this.handleToggleModal}
         />
-      </>
+      </div>
     );
   }
 }

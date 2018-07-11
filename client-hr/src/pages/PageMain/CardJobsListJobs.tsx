@@ -5,6 +5,7 @@ import {
 } from 'react-redux';
 
 import apiJob from '../../api/v1/job';
+import { appSetViewJob } from '../../reducers/app/actions';
 
 // import Button from 'antd/lib/button';
 import List from 'antd/lib/list';
@@ -13,6 +14,9 @@ import List from 'antd/lib/list';
 import CardJobsListJobsItem from './CardJobsListJobsItem';
 
 interface ICardJobsListJobsProps extends DispatchProp {
+  app: {
+    jobId: string;
+  };
   data: {
     company: Company;
     jobs: Job[] | undefined;
@@ -29,6 +33,9 @@ class CardJobsListJobs extends React.Component<ICardJobsListJobsProps, ICardJobs
     this.state = {
       isFetching: false,
     };
+
+    this.handleJobsFind = this.handleJobsFind.bind(this);
+    this.handleSetViewJob = this.handleSetViewJob.bind(this);
   }
 
   public componentDidMount() {
@@ -36,24 +43,29 @@ class CardJobsListJobs extends React.Component<ICardJobsListJobsProps, ICardJobs
   }
 
   public handleJobsFind() {
-    this.setState({ isFetching: true });
     const company = this.props.data.company;
 
     if (company && company.id) {
+      this.setState({ isFetching: true });
+
       apiJob.find(company.id)
         .then(() => {
-          this.setState({ isFetching: true });
+          this.setState({ isFetching: false });
         })
         .catch(() => {
-          this.setState({ isFetching: true });
+          this.setState({ isFetching: false });
         });
     }
+  }
+
+  public handleSetViewJob(job: Job) {
+    this.props.dispatch(appSetViewJob(job.id || ''));
   }
 
   public render() {
     return (
       <List
-        loading={false}
+        loading={this.state.isFetching}
         itemLayout={'horizontal'}
         // loadMore={
         //   <div className={'list-job-load'}>
@@ -66,13 +78,23 @@ class CardJobsListJobs extends React.Component<ICardJobsListJobsProps, ICardJobs
         // }
         dataSource={this.props.data.jobs || []}
         locale={{ emptyText: 'No jobs found' }}
-        renderItem={(job: any) => <CardJobsListJobsItem job={job}/>}
+        renderItem={(job: any) => (
+          <CardJobsListJobsItem
+            key={job.id}
+            job={job}
+            isActive={job.id === this.props.app.jobId}
+            onClick={this.handleSetViewJob}
+          />
+        )}
       />
     );
   }
 }
 
 const mapStateToProps = (state: Store.State) => ({
+  app: {
+    jobId: state.app.jobId,
+  },
   data: {
     company: state.data.companies && state.data.companies[0],
     jobs: state.data.jobs,

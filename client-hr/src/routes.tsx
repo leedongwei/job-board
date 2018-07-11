@@ -17,7 +17,7 @@ import PageRegister from './pages/PageRegister';
 const Routes = () => (
   <>
     <ConnectedSwitch>
-      <Route path={'/'} exact={true} component={PageLogin}/>
+      <Route path={'/'} exact={true} component={PageRegister}/>
       <Route path={'/login'} component={PageLogin}/>
       <Route path={'/register'} component={PageRegister}/>
 
