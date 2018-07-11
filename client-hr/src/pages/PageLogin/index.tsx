@@ -8,10 +8,10 @@ import {
   withRouter
 } from 'react-router-dom'
 
-import apiUser from '../../api/v1/user';
+import apiAuth from '../../api/v1/auth';
 import { appSetLogin } from '../../reducers/app/actions';
 
-import { Card } from 'antd';
+import Card from 'antd/lib/card';
 
 import TemplatePage from '../components/TemplatePage';
 import FormAuthCreate from './FormAuthCreate';
@@ -45,7 +45,7 @@ class PageLogin extends React.Component<IPageLoginProps, IPageLoginState> {
   }
 
   public handleAuthCreate(user: User) {
-    return apiUser.create(user)
+    return apiAuth.create(user)
       .then((res: any) => {
         window.localStorage.setItem('hr-jwt', res.data.auth_token);
         return res;

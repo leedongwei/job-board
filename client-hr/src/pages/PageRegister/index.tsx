@@ -12,7 +12,7 @@ import apiCompany from '../../api/v1/company';
 import apiUser from '../../api/v1/user';
 import { appSetLogin } from '../../reducers/app/actions';
 
-import { Card } from 'antd';
+import Card from 'antd/lib/card';
 
 import TemplatePage from '../components/TemplatePage';
 import FormUserCreate from './FormUserCreate';
