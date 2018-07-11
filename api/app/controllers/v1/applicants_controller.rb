@@ -18,19 +18,19 @@ module V1
     # POST /companies/:company_id/jobs/:job_id/applicants
     def create
       @job.applicants.create!(applicant_params)
-      json_response(@company, :created)
+      json_response(@job, :created)
     end
 
     # PUT /companies/:company_id/jobs/:job_id/applicants/:id
     def update
       @applicant.update(applicant_params)
-      head :no_content
+      json_response(@applicant)
     end
 
     # DELETE /companies/:company_id/jobs/:job_id/applicants/:id
     def destroy
       @applicant.destroy
-      head :no_content
+      json_response(@applicant)
     end
 
     private
