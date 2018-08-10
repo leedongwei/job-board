@@ -4,9 +4,9 @@ class CreateCompanies < ActiveRecord::Migration[5.2]
       t.references :user, foreign_key: true
 
       t.string :name
+      t.string :logo
 
-      t.string :address_line_1
-      t.string :address_line_2
+      t.string :address
       t.string :city
       t.string :state
       t.string :zip

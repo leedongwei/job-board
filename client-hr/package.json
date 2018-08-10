@@ -9,11 +9,13 @@
     "@types/react-router-redux": "5.0.15",
     "antd": "3.6.5",
     "axios": "0.18.0",
+    "email-validator": "2.0.4",
     "history": "4.7.2",
     "querystring": "0.2.0",
     "react": "^16.4.1",
     "react-document-title": "2.0.3",
     "react-dom": "^16.4.1",
+    "react-icons": "3.0.5",
     "react-redux": "5.0.7",
     "react-router": "4.2.0",
     "react-router-dom": "4.2.2",
@@ -21,10 +23,12 @@
     "react-scripts-ts": "2.16.0",
     "redux": "4.0.0",
     "redux-promise-middleware": "5.1.1",
-    "redux-thunk": "2.3.0"
+    "redux-thunk": "2.3.0",
+    "styled-components": "3.3.3",
+    "valid-url": "1.0.9"
   },
   "scripts": {
-    "start": "PORT=3001 && react-scripts-ts start",
+    "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"

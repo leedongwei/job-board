@@ -1,5 +1,6 @@
 class Company < ApplicationRecord
-  has_many :jobs, dependent: :destroy
+  belongs_to :user
+  has_many :jobs, foreign_key: :company_id, dependent: :destroy
 
-  validates_presence_of :name, :created_by
+  validates_presence_of :name, :logo, :address, :city, :state, :zip
 end

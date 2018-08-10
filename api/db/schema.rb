@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 2018_07_08_215016) do
   create_table "companies", force: :cascade do |t|
     t.integer "user_id"
     t.string "name"
-    t.string "address_line_1"
-    t.string "address_line_2"
+    t.string "logo"
+    t.string "address"
     t.string "city"
     t.string "state"
     t.string "zip"
@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 2018_07_08_215016) do
     t.string "title"
     t.string "description"
     t.string "application_link"
+    t.string "tags"
+    t.boolean "approved"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_jobs_on_company_id"

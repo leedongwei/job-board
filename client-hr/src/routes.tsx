@@ -5,10 +5,8 @@ import ConnectedSwitch from './pages/components/Router/ConnectedSwitch';
 import PrivateRoute from './pages/components/Router/PrivateRoute';
 
 // Production pages
-import PageLogin from './pages/PageLogin';
-import PageMain from './pages/PageMain';
-import PageRegister from './pages/PageRegister';
-// import WelcomePage from './pages/WelcomePage';
+import NewMain from './pages/NewMain';
+import PagePost from './pages/PagePost';
 
 // Status pages
 // import ErrorNotFoundPage from './pages/ErrorNotFoundPage';
@@ -17,14 +15,8 @@ import PageRegister from './pages/PageRegister';
 const Routes = () => (
   <>
     <ConnectedSwitch>
-      <Route path={'/'} exact={true} component={PageRegister}/>
-      <Route path={'/login'} component={PageLogin}/>
-      <Route path={'/register'} component={PageRegister}/>
-
-      <PrivateRoute path={'/main'} component={PageMain}/>
-
-      {/* <PrivateRoute path={'/welcome'} component={WelcomePage}/> */}
-      {/* <Route component={ErrorNotFoundPage}/> */}
+      <PrivateRoute path={'/post'} component={PagePost}/>
+      <Route path={'/'} component={NewMain}/>
     </ConnectedSwitch>
   </>
 );

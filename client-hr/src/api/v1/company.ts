@@ -25,4 +25,13 @@ export default {
         return res;
       });
   },
+
+  patch: (company: Company) => {
+    return axios
+      .put(`${CONFIG.API_SERVER_URI}/companies/${company.id}`, querystring.stringify(company))
+      .then((res) => {
+        store.dispatch(dataSetCompanies(res.data))
+        return res;
+      });
+  },
 };

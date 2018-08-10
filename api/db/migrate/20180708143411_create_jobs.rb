@@ -7,7 +7,8 @@ class CreateJobs < ActiveRecord::Migration[5.2]
       t.string :description
 
       t.string :application_link
-
+      t.string :tags
+      t.boolean :approved
       t.timestamps
     end
   end

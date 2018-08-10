@@ -9,6 +9,8 @@ import {
   DATA_SET_APPLICANTS,
   DATA_SET_COMPANIES,
   DATA_SET_JOBS,
+  DATA_SET_USER,
+  DATA_SET_USER_COMPANY,
 } from './actions';
 
 const initialState: StateData = {
@@ -21,6 +23,18 @@ export const dataReducer: Reducer<StateData> = (state = initialState, action) =>
   switch (action.type) {
     case APP_RESET:
       return initialState;
+
+    case DATA_SET_USER:
+      return {
+        ...state,
+        user: action.payload.user,
+      }
+
+    case DATA_SET_USER_COMPANY:
+      return {
+        ...state,
+        userCompany: action.payload.userCompany,
+      };
 
     case DATA_SET_COMPANIES:
       return {
