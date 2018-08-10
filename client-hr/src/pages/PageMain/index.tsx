@@ -30,8 +30,8 @@ const HeroText = styled.h1`
   margin: 0 32px 40px;
   text-align: center;
 
-  > span:first-child { font-weight: 300; }
-  > span:last-child { font-weight: 700; }
+  > span:first-child { font-weight: 200; }
+  > span:last-child { font-weight: 600; }
 `;
 const ContentWrapper = styled.div`
   display: flex;

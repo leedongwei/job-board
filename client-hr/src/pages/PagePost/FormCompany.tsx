@@ -53,7 +53,7 @@ class FormCompany extends React.Component<IFormCompanyProps, IFormCompanyState> 
       const company = {
         address: formValues.address,
         city: formValues.city,
-        logo: formValues.logo || 'https://en.m.wikipedia.org/wiki/File:000080_Navy_Blue_Square.svg',
+        logo: formValues.logo || 'https://avatars3.githubusercontent.com/u/11805724?s=400&v=4',
         name: formValues.name,
         state: formValues.state,
         // user_id: '',

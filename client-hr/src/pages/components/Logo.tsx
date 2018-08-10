@@ -8,10 +8,11 @@ const LogoWrapper = styled.a`
   color: ${(props) => (props.color || '#FFF')};
 `;
 const LogoGot = styled.span`
-  font-weight: light;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 200;
 `;
 const LogoWork = styled.span`
-  font-weight: bold;
+  font-weight: 700;
 `;
 
 interface ILogoProps {

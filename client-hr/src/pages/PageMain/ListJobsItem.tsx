@@ -66,7 +66,7 @@ class ListJobsItem extends React.Component<IListJobsItemProps, IListJobsItemStat
     super(props);
 
     this.state = {
-      isJobDescriptionVisible: true,
+      isJobDescriptionVisible: false,
     };
 
     this.handleToggleJd = this.handleToggleJd.bind(this);
@@ -86,7 +86,7 @@ class ListJobsItem extends React.Component<IListJobsItemProps, IListJobsItemStat
           style={{ borderBottom: this.state.isJobDescriptionVisible ? 'none' : '1px solid #EFEFEF' }}
         >
           <td style={{ padding: '0 10px' }}>
-            <Logo src={''}/>
+            <Logo src={company ? company.logo : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='}/>
           </td>
 
           <td style={{ padding: '0 10px', minWidth: 150 }}>
@@ -107,7 +107,7 @@ class ListJobsItem extends React.Component<IListJobsItemProps, IListJobsItemStat
           </td>
 
           <td style={{ padding: '0 10px' }}>
-            <Button href={this.props.job.application_link}>Apply</Button>
+            <Button href={`//${this.props.job.application_link}` as string}>Apply</Button>
           </td>
         </Wrapper>
         <Wrapper

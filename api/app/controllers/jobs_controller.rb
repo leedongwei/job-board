@@ -1,4 +1,5 @@
 class JobsController < ApplicationController
+  skip_before_action :authorize_request, only: :findLatest
   before_action :set_company, except: :findLatest
   before_action :set_company_job, only: [:show, :update, :destroy]
 
