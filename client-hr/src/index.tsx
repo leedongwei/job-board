@@ -21,6 +21,7 @@ import 'antd/dist/antd.css';
 import App from './app';
 import * as reducers from './reducers';
 // import registerServiceWorker from './lib/registerServiceWorker';
+import './styles.css';
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // tslint:disable-line:no-any
 

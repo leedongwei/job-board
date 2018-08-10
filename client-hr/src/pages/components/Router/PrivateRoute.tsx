@@ -8,7 +8,7 @@ import { Route, RouteProps } from 'react-router';
 import apiUser from '../../../api/v1/user';
 import { dataSetUser } from '../../../reducers/data/actions';
 
-import NewMain from '../../../pages/NewMain';
+import PageMain from '../../../pages/PageMain';
 
 interface IPrivateRouteProps extends DispatchProp, RouteProps {
   isAuthenticated: boolean;
@@ -45,7 +45,7 @@ class PrivateRoute extends React.Component<IPrivateRouteProps> {
       return <Route {...props} component={Component}/>;
     }
 
-    return <Route {...props} render={() => <NewMain/>}/>;
+    return <Route {...props} render={() => <PageMain/>}/>;
   }
 }
 

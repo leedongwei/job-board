@@ -1,5 +1,8 @@
-import * as React from 'react';
-// import styled from 'styled-components';
+import * as React from 'react';import {
+  connect,
+  DispatchProp,
+} from 'react-redux';
+import { push } from 'react-router-redux';
 
 import Button from 'antd/lib/button';
 import Checkbox from 'antd/lib/checkbox';
@@ -9,7 +12,7 @@ import Input from 'antd/lib/input';
 import message from 'antd/lib/message';
 import Row from 'antd/lib/row';
 
-interface IFormJobProps extends FormComponentProps {
+interface IFormJobProps extends FormComponentProps, DispatchProp {
   company?: Company;
   isDisabled: boolean;
   fetchJobCreate: { (job: Job): Promise<any> };
@@ -60,6 +63,7 @@ class FormJob extends React.Component<IFormJobProps, IFormJobState> {
 
       this.setState({ isFetching: false });
       message.success('Posted job position!');
+      this.props.dispatch(push('/'));
     } catch (e) {
       console.error(e);
       this.setState({ isFetching: false });
@@ -173,11 +177,11 @@ class FormJob extends React.Component<IFormJobProps, IFormJobState> {
           disabled={this.state.isFetching || this.props.isDisabled}
           onClick={this.handleSubmitForm}
         >
-          Post job!
+          Post the job <u>for free!</u>
         </Button>
       </div>
     );
   }
 }
 
-export default Form.create()(FormJob);
+export default connect()(Form.create()(FormJob));

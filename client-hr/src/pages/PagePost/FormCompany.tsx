@@ -211,10 +211,10 @@ class FormCompany extends React.Component<IFormCompanyProps, IFormCompanyState> 
                 })(
                   <InputNumber
                     min={0}
-                    max={9999999}
+                    max={999999}
                     placeholder={''}
                     disabled={this.state.isFetching}
-                    width={'100%'}
+                    style={{ width: '100%' }}
                     size={'large'}
                   />
                 )
@@ -230,7 +230,7 @@ class FormCompany extends React.Component<IFormCompanyProps, IFormCompanyState> 
           disabled={this.state.isFetching}
           onClick={this.handleSubmitForm}
         >
-          Save
+          Save company info
         </Button>
       </div>
     );

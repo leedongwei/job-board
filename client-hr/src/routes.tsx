@@ -5,7 +5,7 @@ import ConnectedSwitch from './pages/components/Router/ConnectedSwitch';
 import PrivateRoute from './pages/components/Router/PrivateRoute';
 
 // Production pages
-import NewMain from './pages/NewMain';
+import PageMain from './pages/PageMain';
 import PagePost from './pages/PagePost';
 
 // Status pages
@@ -16,7 +16,7 @@ const Routes = () => (
   <>
     <ConnectedSwitch>
       <PrivateRoute path={'/post'} component={PagePost}/>
-      <Route path={'/'} component={NewMain}/>
+      <Route path={'/'} component={PageMain}/>
     </ConnectedSwitch>
   </>
 );

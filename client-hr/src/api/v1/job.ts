@@ -9,6 +9,15 @@ import {
 } from '../../reducers/data/actions';
 
 export default {
+  findLatest: () => {
+    return axios
+      .get(`${CONFIG.API_SERVER_URI}/jobs/`)
+      .then((res) => {
+        store.dispatch(dataSetJobs(res.data))
+        return res;
+      });
+  },
+
   find: (companyId: string) => {
     return axios
       .get(`${CONFIG.API_SERVER_URI}/companies/${companyId}/jobs`)

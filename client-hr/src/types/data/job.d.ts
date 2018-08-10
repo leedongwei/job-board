@@ -5,4 +5,6 @@ declare interface Job {
   application_link: string;
   tags: string[] | string;
   approved: boolean;
+
+  company?: Company;
 }

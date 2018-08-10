@@ -133,7 +133,6 @@ class PageTemplate extends React.Component<IPageTemplateProps, IPageTemplateStat
 
               <HeaderItem>
                 <Button
-                  className={'header-button'}
                   style={{
                     backgroundColor: '#FF4742',
                     border: 'none',
@@ -155,7 +154,6 @@ class PageTemplate extends React.Component<IPageTemplateProps, IPageTemplateStat
                 {
                   !!this.props.jwt &&
                   <Button
-                    className={'header-button'}
                     onClick={(e: any) => {
                       e.preventDefault();
                       this.fetchAuthRemove();

@@ -31,12 +31,23 @@ const Header = styled(Layout.Header)`
 const Content = styled(Layout.Content)`
   display: flex;
   flex-direction: column;
+  font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
   justify-content: center;
   align-items: center;
   padding: 16px;
 
   div.form-post { max-width: 475px; }
-`
+`;
+const TextHeaderLarge = styled.div`
+  margin-top: 40px;
+  font-size: 25px;
+  color: #333333;
+`;
+const TextHeaderSmall= styled.div`
+  font-size: 15px;
+  color: #AAAAAA;
+  margin-bottom: 40px;
+`;
 
 interface IPagePostProps extends FormComponentProps, DispatchProp {
   isVisible: boolean;
@@ -114,7 +125,7 @@ class PagePost extends React.Component<IPagePostProps, IPagePostState> {
   }
 
   public render() {
-    if (this.state.isFetching) {
+    if (!this.props.user || this.state.isFetching) {
       return <p>loading</p>;
     }
 
@@ -126,8 +137,18 @@ class PagePost extends React.Component<IPagePostProps, IPagePostState> {
           </Header>
 
           <Content>
+            <Row>
+              <Col>
+                <TextHeaderLarge>
+                  Hello, {this.props.user.name}!
+                </TextHeaderLarge>
+                <TextHeaderSmall>
+                  Just a few more details to post your job...
+                </TextHeaderSmall>
+              </Col>
+            </Row>
             <Row gutter={16} justify={'center'}>
-              <Col xs={24} md={12}>
+              <Col xs={24} md={12} style={{ paddingBottom: 40 }}>
                 <FormCompany
                   isVisible={true}
                   company={this.state.company}
@@ -136,16 +157,13 @@ class PagePost extends React.Component<IPagePostProps, IPagePostState> {
                 />
               </Col>
 
-              {
-                this.state.company &&
-                <Col xs={24} md={12}>
-                  <FormJob
-                    isDisabled={!this.state.company}
-                    company={this.state.company}
-                    fetchJobCreate={this.fetchJobCreate}
-                  />
-                </Col>
-              }
+              <Col xs={24} md={12} style={{ paddingBottom: 40 }}>
+                <FormJob
+                  isDisabled={!this.state.company}
+                  company={this.state.company}
+                  fetchJobCreate={this.fetchJobCreate}
+                />
+              </Col>
             </Row>
           </Content>
         </Layout>

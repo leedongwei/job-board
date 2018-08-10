@@ -1,5 +1,5 @@
 class JobSerializer < ActiveModel::Serializer
-  # attributes :id, :title, :description, :created_at, :updated_at
+  attributes :id, :company_id, :title, :description, :application_link, :tags, :approved, :created_at, :updated_at
 
-  # has_many :applicants
+  belongs_to :company
 end

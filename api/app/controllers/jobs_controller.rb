@@ -1,6 +1,11 @@
 class JobsController < ApplicationController
-  before_action :set_company
+  before_action :set_company, except: :findLatest
   before_action :set_company_job, only: [:show, :update, :destroy]
+
+  # GET /jobs
+  def findLatest
+    json_response(Job.order("created_at").last(20))
+  end
 
   # GET /companies/:company_id/jobs
   def index
@@ -14,13 +19,6 @@ class JobsController < ApplicationController
 
   # POST /companies/:company_id/jobs
   def create
-    puts ' '
-    puts ' '
-    puts ' '
-    puts job_params
-    puts ' '
-    puts ' '
-    puts ' '
     @company.jobs.create!(job_params)
     json_response(@company, :created)
   end

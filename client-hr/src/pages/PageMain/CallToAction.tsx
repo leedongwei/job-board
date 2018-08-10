@@ -1,4 +1,9 @@
 import * as React from 'react';
+import {
+  connect,
+  DispatchProp,
+} from 'react-redux';
+import { push } from 'react-router-redux';
 import styled from 'styled-components';
 
 import Button from 'antd/lib/button';
@@ -27,11 +32,16 @@ const TextUnderline = styled.span`
   border-bottom: 1px solid;
 `;
 
-const CallToAction: React.SFC = () => (
+const CallToAction: React.SFC<DispatchProp> = (props) => (
   <CallWrapper>
     <span>Post a job on <TextBold>got.work</TextBold> — America's #1 spot for hourly work. <TextUnderline>It's FREE!</TextUnderline></span>
-    <Button>Post a job</Button>
+    <Button
+      onClick={() => props.dispatch(push('/post'))}
+      size={'large'}
+    >
+      Post a job
+    </Button>
   </CallWrapper>
 )
 
-export default CallToAction;
+export default connect()(CallToAction);
